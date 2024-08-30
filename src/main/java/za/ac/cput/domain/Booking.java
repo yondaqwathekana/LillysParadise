@@ -11,6 +11,8 @@ public class Booking {
     @Id
     @Column(name = "booking_id")
     private String bookingId;
+    @Column(name = "number_of_guests")
+    private int numberOfGuest;
 
     @Column(name = "check_in")
     private LocalDateTime checkIn;
@@ -26,13 +28,12 @@ public class Booking {
     @JoinColumn(name = "guest_id")
     private Guest guest;
 
-
-
     protected Booking() {
     }
 
     private Booking(Builder builder) {
         this.bookingId = builder.bookingId;
+        this.numberOfGuest = builder.numberOfGuest;
         this.checkIn = builder.checkIn;
         this.checkOut = builder.checkOut;
         this.room = builder.room;
@@ -42,6 +43,7 @@ public class Booking {
     public String getBookingId() {
         return bookingId;
     }
+    public int getNumberOfGuest(){return numberOfGuest;}
 
     public LocalDateTime getCheckIn() {
         return checkIn;
@@ -63,18 +65,19 @@ public class Booking {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Booking booking)) return false;
-        return Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getCheckIn(), booking.getCheckIn()) && Objects.equals(getCheckOut(), booking.getCheckOut()) && Objects.equals(getRoom(), booking.getRoom()) && Objects.equals(getGuest(), booking.getGuest());
+        return getNumberOfGuest() == booking.getNumberOfGuest() && Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getCheckIn(), booking.getCheckIn()) && Objects.equals(getCheckOut(), booking.getCheckOut()) && Objects.equals(getRoom(), booking.getRoom()) && Objects.equals(getGuest(), booking.getGuest());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getBookingId(), getCheckIn(), getCheckOut(), getRoom(), getGuest());
+        return Objects.hash(getBookingId(), getNumberOfGuest(), getCheckIn(), getCheckOut(), getRoom(), getGuest());
     }
 
     @Override
     public String toString() {
         return "Booking{" +
                 "bookingId='" + bookingId + '\'' +
+                ", numberOfGuest=" + numberOfGuest +
                 ", checkIn=" + checkIn +
                 ", checkOut=" + checkOut +
                 ", room=" + room +
@@ -84,6 +87,7 @@ public class Booking {
 
     public static class Builder {
         private String bookingId;
+        private int numberOfGuest;
         private LocalDateTime checkIn;
         private LocalDateTime checkOut;
         private Room room;
@@ -92,6 +96,10 @@ public class Booking {
 
         public Builder setBookingId(String bookingId) {
             this.bookingId = bookingId;
+            return this;
+        }
+        public Builder setNumberOfGuest(int numberOfGuest) {
+            this.numberOfGuest = numberOfGuest;
             return this;
         }
 
@@ -117,6 +125,7 @@ public class Booking {
 
         public Builder copy(Booking b) {
             this.bookingId = b.bookingId;
+            this.numberOfGuest = b.numberOfGuest;
             this.checkIn = b.checkIn;
             this.checkOut = b.checkOut;
             this.room = b.room;

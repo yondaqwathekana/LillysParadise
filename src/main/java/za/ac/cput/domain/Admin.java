@@ -13,6 +13,7 @@ public class Admin {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "email")
     private Contact contact;
+    private String password;
 
     protected Admin(){}
 
@@ -20,21 +21,28 @@ public class Admin {
         this.adminId = builder.adminId;
         this.name = builder.name;
         this.contact = builder.contact;
+        this.password = builder.password;
     }
 
     public String getAdminId() { return adminId; }
     public Name getName() { return name; }
     public Contact getContact() { return contact; }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        Admin admin = (Admin) object;
-        return Objects.equals(adminId, admin.adminId) && Objects.equals(name, admin.name) && Objects.equals(contact, admin.contact);
+    public String getPassword() {
+        return password;
     }
+
     @Override
-    public int hashCode() { return Objects.hash(adminId, name, contact); }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Admin admin)) return false;
+        return Objects.equals(getAdminId(), admin.getAdminId()) && Objects.equals(getName(), admin.getName()) && Objects.equals(getContact(), admin.getContact()) && Objects.equals(getPassword(), admin.getPassword());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAdminId(), getName(), getContact(), getPassword());
+    }
 
     @Override
     public String toString() {
@@ -42,6 +50,7 @@ public class Admin {
                 "adminId='" + adminId + '\'' +
                 ", name=" + name +
                 ", contact=" + contact +
+                ", password='" + password + '\'' +
                 '}';
     }
 
@@ -49,6 +58,7 @@ public class Admin {
         private String adminId;
         private Name name;
         private Contact contact;
+        private String password;
 
         public Builder setAdminId(String adminId) {
             this.adminId = adminId;
@@ -62,10 +72,17 @@ public class Admin {
             this.contact = contact;
             return this;
         }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
         public Builder copy(Admin admin){
             this.adminId = admin.adminId;
             this.name = admin.name;
             this.contact = admin.contact;
+            this.password = admin.password;
             return this;
         }
         public Admin build(){ return new Admin(this); }
