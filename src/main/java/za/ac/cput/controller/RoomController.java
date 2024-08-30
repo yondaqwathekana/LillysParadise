@@ -24,6 +24,7 @@ public class RoomController {
 
     private final RoomServiceImp RoomService;
     private final RoomRepository roomRepository;
+
     @Autowired
     public RoomController(RoomServiceImp RoomService, RoomRepository roomRepository) {
         this.RoomService = RoomService;
@@ -47,13 +48,17 @@ public class RoomController {
     }
 
     @GetMapping("/read/{RoomNumber}")
-    public Room readRoom(@PathVariable String RoomNumber){ return RoomService.read(RoomNumber); }
+    public Room readRoom(@PathVariable String RoomNumber) {
+        return RoomService.read(RoomNumber);
+    }
 
     @PutMapping("/update")
-    public Room updateRoom(@RequestBody Room room){ return RoomService.update(room); }
+    public Room updateRoom(@RequestBody Room room) {
+        return RoomService.update(room);
+    }
 
     @DeleteMapping("/delete/{roomNumber}")
-    public ResponseEntity<?> deleteRoom(@PathVariable String roomNumber){
+    public ResponseEntity<?> deleteRoom(@PathVariable String roomNumber) {
         try {
             Room deletedRoom = RoomService.delete(roomNumber);
             if (deletedRoom != null) {
@@ -67,7 +72,9 @@ public class RoomController {
     }
 
     @GetMapping("/getall")
-    public Set<Room> getRooms(){ return RoomService.getAll(); }
+    public Set<Room> getRooms() {
+        return RoomService.getAll();
+    }
 
     @GetMapping("/image/{imageName}")
     public ResponseEntity<byte[]> getImage(@PathVariable String imageName) {
@@ -84,6 +91,20 @@ public class RoomController {
         } else {
             System.out.println("room with image not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/{roomType}")
+    public ResponseEntity<Set<Room>> getRoomByType(@PathVariable String roomType) {
+        if (roomType != null && !roomType.isEmpty()) {
+            Set<Room> rooms = RoomService.findByRoomType(roomType);
+            if (rooms.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(rooms, HttpStatus.OK);
+        } else {
+            throw new IllegalArgumentException("Room type must be provided");
         }
     }
 }

@@ -33,6 +33,11 @@ public class RoomServiceImp implements RoomService {
 
         return repository.save(room);
     }
+
+
+    public Set<Room> findByRoomType(String roomType){ return repository.findRoomByRoomType(roomType); }
+
+
     @Override
     public Room read(String RoomNumber) { return repository.findById(RoomNumber).orElseThrow(()-> new NoSuchElementException("No room with such email address exist")); }
     @Override
