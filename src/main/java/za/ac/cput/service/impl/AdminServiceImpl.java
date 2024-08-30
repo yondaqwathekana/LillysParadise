@@ -3,6 +3,7 @@ package za.ac.cput.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Admin;
+import za.ac.cput.domain.Contact;
 import za.ac.cput.repository.AdminRepository;
 import za.ac.cput.service.AdminService;
 
@@ -31,6 +32,16 @@ public class AdminServiceImpl implements AdminService {
     }
     @Override
     public Set<Admin> getAll() { return new HashSet<>(repository.findAll()); }
+
+    @Override
+    public Admin findByContact(Contact contact) {
+        return  repository.findByContact(contact);
+    }
+
+    @Override
+    public Admin findByEmail(String email) {
+        return repository.findByContact_Email(email);
+    }
 
     public Set<Admin> findByFirstNameAndLastName(String firstName, String lastName) { return repository.findAllByName_FirstNameAndName_LastName(firstName, lastName); }
 }
