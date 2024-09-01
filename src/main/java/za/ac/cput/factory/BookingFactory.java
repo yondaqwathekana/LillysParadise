@@ -6,6 +6,7 @@ import za.ac.cput.domain.Room;
 import za.ac.cput.util.Helper;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class BookingFactory {
     public static Booking createBooking(String bookingId, int numberOfGuest, LocalDateTime checkIn, LocalDateTime checkOut, Room room, Guest guest){
