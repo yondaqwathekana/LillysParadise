@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "guest_id")
     private UUID guest_id;
 
     @Embedded
