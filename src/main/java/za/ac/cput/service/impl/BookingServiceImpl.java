@@ -7,6 +7,7 @@ import za.ac.cput.repository.BookingRepository;
 import za.ac.cput.service.BookingService;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -35,5 +36,7 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getAll() {
         return bookingRepository.findAll();
 }
+
+    public List<Booking> findBookingsByRoomNumber(String roomNumber){ return bookingRepository.findBookingByRoomRoomNumber(roomNumber); }
 
 }

@@ -2,13 +2,16 @@ package za.ac.cput.domain;
 
 import jakarta.persistence.*;
 
+import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 @Table(name = "booking")
 public class Booking {
     @Id
+//    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "booking_id")
     private String bookingId;
     @Column(name = "number_of_guests")
