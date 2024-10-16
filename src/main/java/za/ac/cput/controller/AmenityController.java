@@ -16,10 +16,7 @@ public class AmenityController {
     public AmenityController(AmenityServiceImpl amenityService) {
         this.amenityService = amenityService;
     }
-//    @PostMapping("/create")
-//    public Amenity createAmenity(@RequestBody Amenity amenity){
-//        return amenityService.create(amenity);
-//    }
+
     @PostMapping("/create")
     public ResponseEntity<Amenity> createAmenity(@RequestBody Amenity amenity){
         Amenity createdAmenity = amenityService.create(amenity);

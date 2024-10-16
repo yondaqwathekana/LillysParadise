@@ -1,12 +1,17 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 import java.util.Objects;
+@Getter
 @Entity
 public class RoomService {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String serviceName;
     private String serviceDescription;
     private double servicePrice;
@@ -18,19 +23,6 @@ public class RoomService {
         this.serviceName = builder.serviceName;
         this.serviceDescription = builder.serviceDescription;
         this.servicePrice = builder.servicePrice;
-    }
-
-    // Getters
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    public String getServiceDescription() {
-        return serviceDescription;
-    }
-
-    public double getServicePrice() {
-        return servicePrice;
     }
 
     @Override

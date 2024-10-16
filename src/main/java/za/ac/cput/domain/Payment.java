@@ -10,6 +10,7 @@ import java.util.Objects;
 @Entity
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String paymentId;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booking_id")

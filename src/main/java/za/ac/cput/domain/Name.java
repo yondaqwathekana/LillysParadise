@@ -1,9 +1,15 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Objects;
+@Getter
+@EqualsAndHashCode
+@ToString
 @Embeddable
 public class Name implements Serializable {
     private String firstName;
@@ -18,38 +24,6 @@ public class Name implements Serializable {
         this.lastName = builder.lastName;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Name name = (Name) o;
-        return Objects.equals(getFirstName(), name.getFirstName()) && Objects.equals(getMiddleName(), name.getMiddleName()) && Objects.equals(getLastName(), name.getLastName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getFirstName(), getMiddleName(), getLastName());
-    }
-
-    @Override
-    public String toString() {
-        return "Name{" +
-                "FirstName='" + firstName + '\'' +
-                ", MiddleName='" + middleName + '\'' +
-                ", LastName='" + lastName + '\'' +
-                '}';
-    }
     public static class Builder {
         private String firstName;
         private String middleName;

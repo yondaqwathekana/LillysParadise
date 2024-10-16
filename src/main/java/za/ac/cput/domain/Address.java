@@ -1,6 +1,7 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ Address model class
 Author: Luyanda
 */
 
+@Getter
 @Embeddable
 public class Address implements Serializable {
     private String streetName;
@@ -24,18 +26,6 @@ public class Address implements Serializable {
         this.streetName = builder.streetName;
         this.city = builder.city;
         this.postalCode = builder.postalCode;
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
     }
 
     @Override
@@ -67,7 +57,6 @@ public class Address implements Serializable {
         private String streetName;
         private String city;
         private String postalCode;
-
 
         public Builder setStreetName(String streetName) {
             this.streetName = streetName;

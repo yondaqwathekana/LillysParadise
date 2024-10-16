@@ -1,6 +1,7 @@
 package za.ac.cput.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Address;
 import za.ac.cput.domain.Bnb;
@@ -11,10 +12,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/bnb")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class BnbController {
 
+    private final BnbService service;
     @Autowired
-    private BnbService service;
+    public BnbController(BnbService service) { this.service = service; }
 
     @PostMapping("/create")
     public Bnb create(@RequestBody Bnb bnb){

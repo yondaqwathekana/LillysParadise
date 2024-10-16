@@ -1,6 +1,7 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Image {
@@ -35,26 +37,6 @@ public class Image {
     protected void onCreate() {
         imageId = UUID.randomUUID();
         createdAt = LocalDateTime.now();
-    }
-
-    public UUID getImageId() {
-        return imageId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     @Override
