@@ -1,26 +1,16 @@
 package za.ac.cput.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import za.ac.cput.domain.Booking;
-import za.ac.cput.domain.Guest;
-import za.ac.cput.domain.Room;
 import za.ac.cput.service.impl.BookingServiceImpl;
-import za.ac.cput.service.impl.GuestServiceImpl;
-import za.ac.cput.service.impl.RoomServiceImp;
-
-import java.io.IOException;
-import java.rmi.server.UID;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/booking")
+@PreAuthorize("hasRole('ROLE_GUEST')")
 public class BookingController {
     private final BookingServiceImpl bookingService;
     @Autowired
@@ -28,27 +18,49 @@ public class BookingController {
         this.bookingService = bookingService;
     }
     @PostMapping("/create")
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking){
+    public ResponseEntity<?> createBooking(@RequestBody Booking booking){
         try {
             Booking createdBooking = bookingService.create(booking);
             return new ResponseEntity<>(createdBooking, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     @GetMapping("/read/{bookingId}")
-    public Booking readBooking(@PathVariable String bookingId){
-        return bookingService.read(bookingId);
+    public ResponseEntity<Booking> readBooking(@PathVariable String bookingId){
+        try {
+            Booking readBooking = bookingService.read(bookingId);
+            return new ResponseEntity<>(readBooking, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @PutMapping("/update")
-    public Booking updateBooking(@RequestBody Booking booking){
-        return bookingService.update(booking);
+    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking){
+        try {
+            Booking updateBooking = bookingService.update(booking);
+            return new ResponseEntity<>(updateBooking, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
     @GetMapping("/getall")
-    public List<Booking> getAllBookings(){
-        return bookingService.getAll();
+    public ResponseEntity<List<Booking>> getAllBookings(){
+        try {
+            List<Booking> bookings = bookingService.getAll();
+            return new ResponseEntity<>(bookings, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
     @GetMapping("/{roomNumber}")
-    public List<Booking> findBookingsByRoomNumber(@PathVariable String roomNumber){ return bookingService.findBookingsByRoomNumber(roomNumber); }
+    public ResponseEntity<List<Booking>> findBookingsByRoomNumber(@PathVariable String roomNumber){
+        try {
+            List<Booking> bookings = bookingService.findBookingsByRoomNumber(roomNumber);
+            return new ResponseEntity<>(bookings, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 
 }

@@ -1,13 +1,17 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Getter
 @Entity
 public class Amenity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String amenityId;
     private String name;
     private String description;
@@ -21,22 +25,6 @@ public class Amenity {
         this.name = builder.name;
         this.description = builder.description;
         this.availability = builder.availability;
-    }
-
-    public String getAmenityId() {
-        return amenityId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isAvailability() {
-        return availability;
     }
 
     @Override

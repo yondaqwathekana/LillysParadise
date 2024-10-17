@@ -1,38 +1,35 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
 @Entity
 @Table(name = "booking")
 public class Booking {
     @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "booking_id")
     private String bookingId;
     @Column(name = "number_of_guests")
     private int numberOfGuest;
-
     @Column(name = "check_in")
     private LocalDateTime checkIn;
-
     @Column(name = "check_out")
     private LocalDateTime checkOut;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Room room;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "guest_id")
     private Guest guest;
 
-    protected Booking() {
-    }
+    protected Booking() { }
 
     private Booking(Builder builder) {
         this.bookingId = builder.bookingId;
@@ -41,27 +38,6 @@ public class Booking {
         this.checkOut = builder.checkOut;
         this.room = builder.room;
         this.guest = builder.guest;
-    }
-
-    public String getBookingId() {
-        return bookingId;
-    }
-    public int getNumberOfGuest(){return numberOfGuest;}
-
-    public LocalDateTime getCheckIn() {
-        return checkIn;
-    }
-
-    public LocalDateTime getCheckOut() {
-        return checkOut;
-    }
-
-    public Room getRoom() {
-        return room;
-    }
-
-    public Guest getGuest() {
-        return guest;
     }
 
     @Override

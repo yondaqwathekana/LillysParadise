@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/room")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class RoomController {
 
     private final RoomServiceImp RoomService;
@@ -48,13 +50,23 @@ public class RoomController {
     }
 
     @GetMapping("/read/{RoomNumber}")
-    public Room readRoom(@PathVariable String RoomNumber) {
-        return RoomService.read(RoomNumber);
+    public ResponseEntity<Room> readRoom(@PathVariable String RoomNumber) {
+        try {
+            Room readRoom = RoomService.read(RoomNumber);
+            return new ResponseEntity<>(readRoom, HttpStatus.OK);
+        } catch (Exception exception) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/update")
-    public Room updateRoom(@RequestBody Room room) {
-        return RoomService.update(room);
+    public ResponseEntity<Room> updateRoom(@RequestBody Room room) {
+        try {
+            Room updateRoom = RoomService.update(room);
+            return new ResponseEntity<>(updateRoom, HttpStatus.OK);
+        } catch (Exception exception){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/delete/{roomNumber}")
@@ -66,14 +78,19 @@ public class RoomController {
             } else {
                 return new ResponseEntity<>("Room not found", HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return new ResponseEntity<>("Error deleting room", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/getall")
-    public Set<Room> getRooms() {
-        return RoomService.getAll();
+    public ResponseEntity<Set<Room>> getRooms() {
+        try{
+            Set<Room> rooms = RoomService.getAll();
+            return new ResponseEntity<>(rooms, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/image/{imageName}")

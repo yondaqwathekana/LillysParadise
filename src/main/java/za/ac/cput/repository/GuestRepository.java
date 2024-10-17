@@ -10,7 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface GuestRepository extends JpaRepository<Guest, UUID> {
-    public Guest findGuestByContact_Email(String email);
     public Guest findGuestByName_FirstNameAndName_LastName(String firstName, String lastName);
-    Guest findByContact(Contact contact);
 }

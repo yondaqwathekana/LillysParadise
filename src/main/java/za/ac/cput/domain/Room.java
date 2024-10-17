@@ -1,11 +1,13 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
 @Entity
 public class Room {
     @Id
@@ -29,34 +31,6 @@ public class Room {
         this.imageName = builder.imageName;
         this.imageType = builder.imageType;
         this.image = builder.image;
-    }
-
-    public String getRoomNumber() {
-        return roomNumber;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public double getRoomPrice() {
-        return roomPrice;
-    }
-
-    public String getRoomFloor() {
-        return roomFloor;
-    }
-
-    public String getImageName() {
-        return imageName;
-    }
-
-    public String getImageType() {
-        return imageType;
-    }
-
-    public byte[] getImage() {
-        return image;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.util.Objects;
 
+@Getter
 @Entity
 public class Feedback {
     @Id
@@ -19,22 +22,6 @@ public class Feedback {
         this.userName = builder.userName;
         this.feedbackText = builder.feedbackText;
         this.rating = builder.rating;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getFeedbackText() {
-        return feedbackText;
-    }
-
-    public int getRating() {
-        return rating;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package za.ac.cput.domain;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 
 import java.util.HashSet;
@@ -7,14 +8,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Getter
 @Entity
 public class Bnb {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID bnbId;
     private String bnbName;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "email")
+    @Embedded
     private Contact contact;
     @Embedded
     private Address address;
@@ -25,29 +26,12 @@ public class Bnb {
         this.bnbName = build.bnbName;
         this.contact = build.contact;
         this.address = build.address;
-
     }
 
     @PrePersist
     public void onCreate(){
         if(bnbId == null)
             bnbId = UUID.randomUUID();
-    }
-
-    public UUID getBnbId() {
-        return bnbId;
-    }
-
-    public String getBnbName() {
-        return bnbName;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     @Override

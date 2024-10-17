@@ -6,10 +6,8 @@ import za.ac.cput.domain.Guest;
 import za.ac.cput.domain.Name;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface GuestService extends IService<Guest, String> {
-    Guest findByContact(Contact contact);
-
+public interface GuestService extends IService<Guest, UUID> {
     List<Guest> getAll();
-    Guest findByEmail(String email);
 }
