@@ -1,7 +1,9 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.Objects;
 
 @Getter
 @Entity
+@EqualsAndHashCode
+@ToString
 public class Room {
     @Id
     private String roomNumber;
@@ -39,26 +43,6 @@ public class Room {
         if (object == null || getClass() != object.getClass()) return false;
         Room room = (Room) object;
         return Double.compare(roomPrice, room.roomPrice) == 0 && Objects.equals(roomNumber, room.roomNumber) && Objects.equals(roomType, room.roomType) && Objects.equals(roomFloor, room.roomFloor) && Objects.equals(imageName, room.imageName) && Objects.equals(imageType, room.imageType) && Arrays.equals(image, room.image);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(roomNumber, roomType, roomPrice, roomFloor, imageName, imageType);
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "roomNumber='" + roomNumber + '\'' +
-                ", roomType='" + roomType + '\'' +
-                ", roomPrice=" + roomPrice +
-                ", roomFloor='" + roomFloor + '\'' +
-                ", imageName='" + imageName + '\'' +
-                ", imageType='" + imageType + '\'' +
-                ", image=" + Arrays.toString(image) +
-                '}';
     }
 
     public static class Builder {

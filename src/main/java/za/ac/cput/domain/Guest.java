@@ -45,7 +45,6 @@ public class Guest extends User{
             return this;
         }
 
-
         public Builder copy(Guest guest) {
             this.name = guest.name;
             this.contact = guest.contact;
