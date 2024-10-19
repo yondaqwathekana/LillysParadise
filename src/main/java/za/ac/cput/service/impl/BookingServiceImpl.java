@@ -7,7 +7,6 @@ import za.ac.cput.repository.BookingRepository;
 import za.ac.cput.service.BookingService;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class BookingServiceImpl implements BookingService {

@@ -1,26 +1,23 @@
 package za.ac.cput.domain;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
-import java.rmi.server.UID;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Entity
-@Table(name = "booking")
+@EqualsAndHashCode
+@ToString
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "booking_id")
     private String bookingId;
-    @Column(name = "number_of_guests")
     private int numberOfGuest;
-    @Column(name = "check_in")
     private LocalDateTime checkIn;
-    @Column(name = "check_out")
     private LocalDateTime checkOut;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
@@ -38,30 +35,6 @@ public class Booking {
         this.checkOut = builder.checkOut;
         this.room = builder.room;
         this.guest = builder.guest;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Booking booking)) return false;
-        return getNumberOfGuest() == booking.getNumberOfGuest() && Objects.equals(getBookingId(), booking.getBookingId()) && Objects.equals(getCheckIn(), booking.getCheckIn()) && Objects.equals(getCheckOut(), booking.getCheckOut()) && Objects.equals(getRoom(), booking.getRoom()) && Objects.equals(getGuest(), booking.getGuest());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getBookingId(), getNumberOfGuest(), getCheckIn(), getCheckOut(), getRoom(), getGuest());
-    }
-
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "bookingId='" + bookingId + '\'' +
-                ", numberOfGuest=" + numberOfGuest +
-                ", checkIn=" + checkIn +
-                ", checkOut=" + checkOut +
-                ", room=" + room +
-                ", guest=" + guest +
-                '}';
     }
 
     public static class Builder {
