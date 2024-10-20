@@ -1,7 +1,6 @@
 package za.ac.cput.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.embedded.undertow.UndertowServletWebServer;
 import org.springframework.stereotype.Service;
 import za.ac.cput.domain.Guest;
 import za.ac.cput.domain.User;

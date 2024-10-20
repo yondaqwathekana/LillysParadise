@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import za.ac.cput.domain.Booking;
 import za.ac.cput.domain.Guest;
 import za.ac.cput.domain.Room;
-import za.ac.cput.repository.BookingRepository;
 import za.ac.cput.repository.RoomRepository;
 import za.ac.cput.repository.UserRepository;
 import za.ac.cput.service.impl.BookingServiceImpl;
@@ -22,13 +21,11 @@ public class BookingController {
     private final BookingServiceImpl bookingService;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
-    private final BookingRepository bookingRepository;
     @Autowired
-    public BookingController(BookingServiceImpl bookingService, RoomRepository roomRepository, UserRepository userRepository, BookingRepository bookingRepository) {
+    public BookingController(BookingServiceImpl bookingService, RoomRepository roomRepository, UserRepository userRepository) {
         this.bookingService = bookingService;
         this.roomRepository = roomRepository;
         this.userRepository = userRepository;
-        this.bookingRepository = bookingRepository;
     }
     @PostMapping("/create")
     public ResponseEntity<String> createBooking(@RequestBody Booking booking) {
@@ -46,6 +43,9 @@ public class BookingController {
             Booking newBooking = new Booking.Builder().setNumberOfGuest(booking.getNumberOfGuest()).setCheckIn(booking.getCheckIn()).setCheckOut(booking.getCheckOut()).setRoom(room).setGuest(guest).build();
 
             bookingService.create(newBooking);
+
+            bookingService.sendBookingEmail(newBooking.getGuest(), newBooking.getRoom(), newBooking.getNumberOfGuest(), newBooking.getCheckIn(), newBooking.getCheckOut());
+            System.out.println("Email sent successfully.");
             return ResponseEntity.status(HttpStatus.CREATED).body("Booking created successfully.");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -91,7 +91,7 @@ public class BookingController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
-    @GetMapping("/{roomNumber}")
+    @GetMapping("/roomBy/{roomNumber}")
     public ResponseEntity<List<Booking>> findBookingsByRoomNumber(@PathVariable String roomNumber){
         try {
             List<Booking> bookings = bookingService.findBookingsByRoomNumber(roomNumber);
