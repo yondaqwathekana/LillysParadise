@@ -13,6 +13,7 @@ import za.ac.cput.domain.User;
 import za.ac.cput.dto.LoginUserDto;
 import za.ac.cput.dto.RegisterUserDto;
 import za.ac.cput.dto.VerifyUserDto;
+import za.ac.cput.repository.UserRepository;
 import za.ac.cput.response.LoginResponse;
 import za.ac.cput.response.ResponseMessage;
 import za.ac.cput.service.impl.GuestServiceImpl;
@@ -82,7 +83,7 @@ public class GuestController {
         return ResponseEntity.ok(currentUser);
     }
 
-    @GetMapping("/read/{email}")
+    @GetMapping("/find/{email}")
     @PreAuthorize("hasRole('ROLE_GUEST')")
     public ResponseEntity<?> findGuestByEmail(@PathVariable String email) {
         try {
@@ -96,7 +97,6 @@ public class GuestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @PostMapping("/logout")
     @PreAuthorize("hasRole('ROLE_GUEST')")
